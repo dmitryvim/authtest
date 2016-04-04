@@ -28,7 +28,7 @@ public class StartpageController {
         OAuth20Service service = new ServiceBuilder()
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
-                .callback("http://ec2-54-186-163-250.us-west-2.compute.amazonaws.com/start")
+                .callback("http://spring.mikhaylovich.com/start")
                 .build(HHApi.instance());
 
         String authUrl = service.getAuthorizationUrl();
@@ -40,10 +40,10 @@ public class StartpageController {
         OAuth20Service service = new ServiceBuilder()
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
-                .callback("http://ec2-54-186-163-250.us-west-2.compute.amazonaws.com/start")
+                .callback("http://spring.mikhaylovich.com/start")
                 .build(HHApi.instance());
 
-//        OAuth2AccessToken accessToken = service.getAccessToken(code);
+        OAuth2AccessToken accessToken = service.getAccessToken(code);
 //        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
 //        service.signRequest(accessToken, request);
 //        final Response response = request.send();
