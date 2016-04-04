@@ -36,18 +36,19 @@ public class StartpageController {
     }
 
     @RequestMapping("/start")
-    public RedirectView getCode(Model model, RedirectAttributes redirectAttributes, @RequestParam("code") String code) {
+    public RedirectView getCode(RedirectAttributes redirectAttributes, @RequestParam("code") String code) {
         OAuth20Service service = new ServiceBuilder()
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
                 .callback("http://ec2-54-186-163-250.us-west-2.compute.amazonaws.com/start")
                 .build(HHApi.instance());
 
-        OAuth2AccessToken accessToken = service.getAccessToken(code);
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
-        service.signRequest(accessToken, request);
-        final Response response = request.send();
-        redirectAttributes.addAttribute("name", response.getBody());
+//        OAuth2AccessToken accessToken = service.getAccessToken(code);
+//        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
+//        service.signRequest(accessToken, request);
+//        final Response response = request.send();
+//        redirectAttributes.addAttribute("name", response.getBody());
+        redirectAttributes.addAttribute("name", code);
 
         //OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
         return new RedirectView("/greeting");
