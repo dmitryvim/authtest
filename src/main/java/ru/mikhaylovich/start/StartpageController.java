@@ -22,30 +22,32 @@ public class StartpageController {
 
     private static final String OAUTH_CLIENT_SECRET = "GB8BPSIUQ8FGEM44M1JTCHQ43SVLV9C9ESR09VL6TV30GH2CKOE71JFA8NH0JNU6";
 
-    private String auth_token = "";
-
-    private final OAuth20Service service = new ServiceBuilder()
-            .apiKey(OAUTH_CLIENT_ID)
-            .apiSecret(OAUTH_CLIENT_SECRET)
-            .callback("http://ec2-54-186-163-250.us-west-2.compute.amazonaws.com/start")
-            //.callback("http://localhost:2105/start")
-            .build(HHApi.instance());
 
     @RequestMapping("/reg")
     public RedirectView regAuth(Model model) {
+        OAuth20Service service = new ServiceBuilder()
+                .apiKey(OAUTH_CLIENT_ID)
+                .apiSecret(OAUTH_CLIENT_SECRET)
+                .callback("http://ec2-54-186-163-250.us-west-2.compute.amazonaws.com/start")
+                .build(HHApi.instance());
 
-        String authUrl = this.service.getAuthorizationUrl();
+        String authUrl = service.getAuthorizationUrl();
         return new RedirectView(authUrl);
     }
 
     @RequestMapping("/start")
     public RedirectView getCode(Model model, RedirectAttributes redirectAttributes, @RequestParam("code") String code) {
-        OAuth2AccessToken accessToken = this.service.getAccessToken(code);
-        //redirectAttributes.addFlashAttribute("name", code);
+        OAuth20Service service = new ServiceBuilder()
+                .apiKey(OAUTH_CLIENT_ID)
+                .apiSecret(OAUTH_CLIENT_SECRET)
+                .callback("http://ec2-54-186-163-250.us-west-2.compute.amazonaws.com/start")
+                .build(HHApi.instance());
+
+        OAuth2AccessToken accessToken = service.getAccessToken(code);
         final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
-        service.signRequest(accessToken, request); // the access token from step 4
+        service.signRequest(accessToken, request);
         final Response response = request.send();
-        redirectAttributes.addFlashAttribute("name", response.getBody());
+        redirectAttributes.addAttribute("name", response.getBody());
 
         //OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
         return new RedirectView("/greeting");
