@@ -20,10 +20,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class StartpageController {
-    @Value("@{oauth.clientId")
+    @Value("${oauth.clientId}")
     private String oauthClientId;
 
-    @Value("@{oauth.clientSecret")
+    @Value("${oauth.clientSecret}")
     private String oauthClientSecret;
 
 
