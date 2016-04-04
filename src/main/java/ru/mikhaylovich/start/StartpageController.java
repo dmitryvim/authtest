@@ -1,6 +1,6 @@
 package ru.mikhaylovich.start;
 
-import com.github.scribejava.apis.HHApi;
+import com.github.scribejava.apis.GitHubApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -18,9 +18,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class StartpageController {
-    private static final String OAUTH_CLIENT_ID = "PRAL1JEGKH7K8965MB4N7TP83458MRRATML157IAQBQIB1PJFVQCKATSRNT60OC4";
+    private static final String OAUTH_CLIENT_ID = "4cf40771cd091de1955a";
 
-    private static final String OAUTH_CLIENT_SECRET = "GB8BPSIUQ8FGEM44M1JTCHQ43SVLV9C9ESR09VL6TV30GH2CKOE71JFA8NH0JNU6";
+    private static final String OAUTH_CLIENT_SECRET = "851ec963380032f473d1d1b9547cfeed86e86ee0";
 
 
     @RequestMapping("/reg")
@@ -29,7 +29,7 @@ public class StartpageController {
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
                 .callback("http://spring.mikhaylovich.com/start")
-                .build(HHApi.instance());
+                .build(GitHubApi.instance());
 
         String authUrl = service.getAuthorizationUrl();
         return new RedirectView(authUrl);
@@ -41,7 +41,7 @@ public class StartpageController {
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
                 .callback("http://spring.mikhaylovich.com/start")
-                .build(HHApi.instance());
+                .build(GitHubApi.instance());
 
         OAuth2AccessToken accessToken = service.getAccessToken(code);
 //        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
