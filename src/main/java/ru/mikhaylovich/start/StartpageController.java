@@ -5,6 +5,7 @@ import com.github.scribejava.apis.HHApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +20,18 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class StartpageController {
-    private static final String OAUTH_CLIENT_ID = "4cf40771cd091de1955a";
+    @Value("@{oauth.clientId")
+    private String oauthClientId;
 
-    private static final String OAUTH_CLIENT_SECRET = "851ec963380032f473d1d1b9547cfeed86e86ee0";
+    @Value("@{oauth.clientSecret")
+    private String oauthClientSecret;
 
 
     @RequestMapping("/reg")
     public RedirectView regAuth(Model model) {
         OAuth20Service service = new ServiceBuilder()
-                .apiKey(OAUTH_CLIENT_ID)
-                .apiSecret(OAUTH_CLIENT_SECRET)
+                .apiKey(oauthClientId)
+                .apiSecret(oauthClientSecret)
                 .callback("http://spring.mikhaylovich.com/start")
                 .build(HHApi.instance());
 
@@ -39,8 +42,8 @@ public class StartpageController {
     @RequestMapping("/start")
     public RedirectView getCode(RedirectAttributes redirectAttributes, @RequestParam("code") String code) {
         OAuth20Service service = new ServiceBuilder()
-                .apiKey(OAUTH_CLIENT_ID)
-                .apiSecret(OAUTH_CLIENT_SECRET)
+                .apiKey(oauthClientId)
+                .apiSecret(oauthClientSecret)
                 .callback("http://spring.mikhaylovich.com/start")
                 .build(HHApi.instance());
 
