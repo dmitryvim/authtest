@@ -1,6 +1,7 @@
 package ru.mikhaylovich.start;
 
 import com.github.scribejava.apis.GitHubApi;
+import com.github.scribejava.apis.HHApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.*;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -29,7 +30,7 @@ public class StartpageController {
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
                 .callback("http://spring.mikhaylovich.com/start")
-                .build(GitHubApi.instance());
+                .build(HHApi.instance());
 
         String authUrl = service.getAuthorizationUrl();
         return new RedirectView(authUrl);
@@ -41,16 +42,15 @@ public class StartpageController {
                 .apiKey(OAUTH_CLIENT_ID)
                 .apiSecret(OAUTH_CLIENT_SECRET)
                 .callback("http://spring.mikhaylovich.com/start")
-                .build(GitHubApi.instance());
+                .build(HHApi.instance());
 
         OAuth2AccessToken accessToken = service.getAccessToken(code);
-//        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
-//        service.signRequest(accessToken, request);
-//        final Response response = request.send();
-//        redirectAttributes.addAttribute("name", response.getBody());
-        redirectAttributes.addAttribute("name", code);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
+        service.signRequest(accessToken, request);
+        final Response response = request.send();
+        redirectAttributes.addAttribute("name", response.getBody());
+        //redirectAttributes.addAttribute("name", code);
 
-        //OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
         return new RedirectView("/greeting");
     }
 
