@@ -50,11 +50,11 @@ public class StartpageController {
                 .build(HHApi.instance());
 
         OAuth2AccessToken accessToken = service.getAccessToken(code);
-//        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
-//        service.signRequest(accessToken, request);
-//        final Response response = request.send();
-//        redirectAttributes.addAttribute("name", response.getBody());
-        redirectAttributes.addAttribute("name", code);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "https://api.hh.ru/me", service);
+        service.signRequest(accessToken, request);
+        final Response response = request.send();
+        redirectAttributes.addAttribute("name", response.getBody());
+        //redirectAttributes.addAttribute("name", code);
 
         return new RedirectView("/greeting");
     }
