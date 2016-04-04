@@ -33,6 +33,7 @@ public class StartpageController {
                 .apiKey(oauthClientId)
                 .apiSecret(oauthClientSecret)
                 .callback("http://spring.mikhaylovich.com/start")
+                .grantType("authorization_code")
                 .build(HHApi.instance());
 
         String authUrl = service.getAuthorizationUrl();
@@ -45,6 +46,7 @@ public class StartpageController {
                 .apiKey(oauthClientId)
                 .apiSecret(oauthClientSecret)
                 .callback("http://spring.mikhaylovich.com/start")
+                .grantType("authorization_code")
                 .build(HHApi.instance());
 
         OAuth2AccessToken accessToken = service.getAccessToken(code);
